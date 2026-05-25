@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保险海报设计生成器 - Insurance Sales Poster Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 25px;
+        }
+
+        /* Left Panel - Input Form */
+        .input-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+
+        .input-panel h2 {
+            color: #5b21b6;
+            margin-bottom: 20px;
+            font-size: 18px;
+            border-bottom: 3px solid #d4b5ff;
+            padding-bottom: 10px;
+        }
+
+        .section-group {
+            margin-bottom: 20px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #e6d5ff;
+        }
+
+        .section-group:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #5b21b6;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #e6d5ff;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #7c3aed;
+            background: #f9f7ff;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .print-btn {
+            width: 100%;
+            padding: 11px;
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.3s;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(91, 33, 182, 0.3);
+        }
+
+        /* Right Panel - Poster + Medical Card */
+        .preview-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .poster-container {
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(150, 100, 200, 0.15);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .medical-card-container {
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(150, 100, 200, 0.15);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        /* Poster Styles */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px 25px;
+            text-align: left;
+            border-bottom: 4px solid #5a3d8a;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .header-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: inline-block;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .header h1 {
+            font-size: 18px;
+            color: #5b21b6;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+            word-break: break-word;
+        }
+
+        .header p {
+            font-size: 10px;
+            color: #7c3aed;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 20px;
+            background: white;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 14px;
+            gap: 12px;
+        }
+
+        .benefit-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #e6d5ff 0%, #d4b5ff 100%);
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #5b21b6;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(150, 100, 200, 0.2);
+        }
+
+        .benefit-content {
+            flex: 1;
+        }
+
+        .benefit-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #5b21b6;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .benefit-icon {
+            font-size: 14px;
+        }
+
+        .sub-benefits {
+            display: grid;
+            gap: 6px;
+        }
+
+        .sub-benefit {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 10px;
+            background: #f9f7ff;
+            border-radius: 8px;
+            border-left: 2px solid #d4b5ff;
+            font-size: 10px;
+        }
+
+        .sub-benefit-label {
+            color: #6b5b95;
+            font-weight: 500;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sub-benefit-value {
+            color: #e6a2d4;
+            font-weight: 700;
+            text-align: right;
+            min-width: 70px;
+            word-break: break-word;
+        }
+
+        .sub-benefit-icon {
+            font-size: 11px;
+        }
+
+        .two-column-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .benefit-box {
+            padding: 10px;
+            background: linear-gradient(135deg, #faf7ff 0%, #f3eaff 100%);
+            border-radius: 8px;
+            border: 1px solid #e6d5ff;
+            text-align: center;
+        }
+
+        .benefit-box-label {
+            font-size: 10px;
+            color: #6b5b95;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .benefit-box-value {
+            font-size: 14px;
+            color: #5b21b6;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #e6d5ff 0%, #d4b5ff 100%);
+            padding: 16px 20px;
+            text-align: center;
+            border-top: 3px solid #c9a5ff;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            color: #5b21b6;
+            font-weight: 500;
+        }
+
+        .footer-subtext {
+            font-size: 10px;
+            color: #7c3aed;
+            margin-top: 4px;
+        }
+
+        /* Medical Card Styles */
+        .medical-card-header {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FCD34D 100%);
+            padding: 22px;
+            border-bottom: 3px solid #F59E0B;
+        }
+
+        .medical-card-header h2 {
+            color: #F59E0B;
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .medical-card-header p {
+            font-size: 12px;
+            color: #B45309;
+            margin: 5px 0;
+            font-weight: 500;
+        }
+
+        .medical-card-content {
+            padding: 20px;
+        }
+
+        .medical-section {
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #F3E8FF;
+        }
+
+        .medical-section:last-child {
+            border-bottom: none;
+        }
+
+        .medical-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #F59E0B;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .medical-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 7px 10px;
+            background: #FFFBEB;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 11px;
+            border-left: 2px solid #FCD34D;
+        }
+
+        .medical-item-label {
+            color: #92400E;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .medical-item-value {
+            color: #F59E0B;
+            font-weight: 700;
+            text-align: right;
+            min-width: 70px;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-selector button {
+            padding: 8px 14px;
+            border: 2px solid #d4b5ff;
+            background: white;
+            color: #5b21b6;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .language-selector button:hover {
+            background: #f9f7ff;
+            border-color: #7c3aed;
+        }
+
+        .language-selector button.active {
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+            color: white;
+            border-color: #5b21b6;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .language-selector {
+                display: none;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .input-panel {
+                display: none;
+            }
+
+            .preview-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .poster-container,
+            .medical-card-container {
+                position: static;
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .input-panel {
+                position: static;
+            }
+
+            .poster-container,
+            .medical-card-container {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button onclick="setLanguage('zh')" class="lang-btn active" data-lang="zh">中文</button>
+        <button onclick="setLanguage('en')" class="lang-btn" data-lang="en">English</button>
+        <button onclick="setLanguage('bm')" class="lang-btn" data-lang="bm">Bahasa</button>
+        <button onclick="setLanguage('th')" class="lang-btn" data-lang="th">ไทย</button>
+        <button onclick="setLanguage('mixed')" class="lang-btn" data-lang="mixed">Mixed</button>
+    </div>
+
+    <div class="main-container">
+        <!-- Left Panel - Input Form -->
+        <div class="input-panel">
+            <h2>⚙️ 编辑保险海报</h2>
+
+            <!-- Personal Info -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section1_title">📋 个人资料</div>
+                <div class="form-group">
+                    <label data-i18n="form.clientName">客户名字</label>
+                    <input type="text" id="clientName" value="evelynn" oninput="updatePreview()">
+                </div>
+                <div class="two-column">
+                    <div class="form-group">
+                        <label data-i18n="form.age">年龄</label>
+                        <input type="number" id="age" value="36" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="form.gender">性别</label>
+                        <select id="gender" onchange="updatePreview()">
+                            <option value="女" selected>女</option>
+                            <option value="男">男</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two-column">
+                    <div class="form-group">
+                        <label data-i18n="form.smoking">抽烟</label>
+                        <select id="smoking" onchange="updatePreview()">
+                            <option value="否" selected>否</option>
+                            <option value="是">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="form.jobGrade">工作等级</label>
+                        <select id="jobGrade" onchange="updatePreview()">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Info -->
+            <div class="section-group">
+                <div class="section-title">💰 保费信息</div>
+                <div class="form-group">
+                    <label data-i18n="form.premium">月保费</label>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-weight: 600; color: #5b21b6;">RM</span>
+                        <input type="text" id="premium" value="340" oninput="updatePreview()" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Section 1 -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section1_title">👤 1️⃣ 身故/永久残疾</div>
+                <div class="form-group">
+                    <label data-i18n="form.section1_compensation">赔偿金额</label>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-weight: 600; color: #5b21b6;">RM</span>
+                        <input type="text" id="input1" value="80,000" oninput="updatePreview()" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section2_title">🏥 2️⃣ 重疾保障</div>
+                <div class="form-group">
+                    <label data-i18n="form.section2_disease">覆盖疾病</label>
+                    <select id="input3" onchange="updatePreview()">
+                        <option value="CIBR">CIBR</option>
+                        <option value="CIPR" selected>CIPR</option>
+                        <option value="SMCC">SMCC</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>保额</label>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-weight: 600; color: #5b21b6;">RM</span>
+                        <input type="text" id="input4" value="80,000" oninput="updatePreview()" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical Card Type & Plan Selection -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section3_title">🏥 医药卡详情</div>
+                <div class="form-group">
+                    <label data-i18n="form.section3_cardType">医药卡类型</label>
+                    <select id="cardType" onchange="updatePlanOptions(); updateMedicalCardInfo(); updatePreview()">
+                        <option value="SHP">SHP - Smart Health Protector</option>
+                        <option value="GMV">GMV - GREAT MediValue</option>
+                        <option value="SMS">SMS - SmartMedic Shield</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label id="planLevelLabel" data-i18n="form.section3_planLevel">计划选择 (Plan Selection)</label>
+                    <select id="planLevel" onchange="updatePreview()">
+                        <option value="">-- 选择保险计划 --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Medical Card Info Panel -->
+            <div class="section-group" id="medicalCardInfoPanel" style="background: #FEF3C7; border: 2px solid #F59E0B; border-radius: 8px; padding: 12px; margin-bottom: 20px;">
+                <div class="section-title" style="color: #F59E0B; margin-bottom: 10px;">📋 选中的医药卡信息</div>
+                <div id="medicalCardDetails"></div>
+            </div>
+
+
+            <!-- Section 4 -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section4_title">🏨 4️⃣ 住院津贴</div>
+                <div class="two-column">
+                    <div class="form-group">
+                        <label data-i18n="form.section4_private">私人医院</label>
+                        <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input11" value="200" oninput="updatePreview()" style="flex: 1;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="form.section4_government">政府医院</label>
+                        <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input12" value="400" oninput="updatePreview()" style="flex: 1;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section5_title">⚡ 5️⃣ 意外保障</div>
+                <div class="form-group">
+                    <label data-i18n="form.section5_type">意外保障类型</label>
+                    <select id="accidentType" onchange="updateAccidentBenefits()">
+                        <option value="ADDM">ACCIDENTAL DEATH & DISMEMBERMENT BENEFIT (仅死亡)</option>
+                        <option value="CABER">COMPREHENSIVE ACCIDENT BENEFIT XTRA RIDER (按比例计算)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="form.section5_death">意外死亡</label>
+                    <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input13" value="100,000" oninput="updateAccidentBenefits(); updatePreview()" style="flex: 1;"></div>
+                </div>
+                <div class="form-group" id="input14Group">
+                    <label data-i18n="form.section5_medical">意外受伤医疗 (每次)</label>
+                    <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input14" value="15M" oninput="updatePreview()" style="flex: 1;"></div>
+                </div>
+                <div class="two-column" id="injuryGroup">
+                    <div class="form-group">
+                        <label>意外病假 - 重伤 (每星期)</label>
+                        <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input14c" value="0.00" oninput="updatePreview()" style="flex: 1;"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>意外病假 - 轻伤 (每星期)</label>
+                        <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input14d" value="0.00" oninput="updatePreview()" style="flex: 1;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6 -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section6_title">⚖️ 6️⃣ 免付利益</div>
+                <div class="two-column">
+                    <div class="form-group">
+                        <label data-i18n="form.section6_insured">被保人保障至</label>
+                        <input type="text" id="input15" value="100 岁" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="form.section6_payor">付款人保障至</label>
+                        <input type="text" id="input16" value="25 岁" oninput="updatePreview()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7 -->
+            <div class="section-group">
+                <div class="section-title" data-i18n="form.section7_title">💰 7️⃣ 投资价值</div>
+                <div class="form-group">
+                    <label data-i18n="form.section7_10year">10年投资价值</label>
+                    <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input17" value="12,350" oninput="updatePreview()" style="flex: 1;"></div>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="form.section7_20year">20年投资价值</label>
+                    <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input18" value="37,539" oninput="updatePreview()" style="flex: 1;"></div>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="form.section7_30year">30年投资价值</label>
+                    <div style="display: flex; align-items: center; gap: 6px;"><span style="font-weight: 600; color: #5b21b6;">RM</span><input type="text" id="input19" value="70,233" oninput="updatePreview()" style="flex: 1;"></div>
+                </div>
+            </div>
+
+            <button class="print-btn" onclick="resetForm()" data-i18n="button.refresh">🔄 刷新纪录</button>
+        </div>
+
+        <!-- Right Panel - Poster + Medical Card -->
+        <div class="preview-panel">
+            <!-- Poster Preview -->
+            <div class="poster-container">
+                <div class="header">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div style="padding: 12px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                            <p style="margin: 0; font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">👤 客户名字</p>
+                            <p style="margin: 0; font-size: 18px; font-weight: 700; color: #ffffff;"><span id="posterClientName">evelynn</span></p>
+                        </div>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                            <p style="margin: 0; font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">📊 年龄 / 性别</p>
+                            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #ffffff;"><span id="posterAge">36</span> 岁 / <span id="posterGender">女</span></p>
+                        </div>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                            <p style="margin: 0; font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">💰 月保费</p>
+                            <p style="margin: 0; font-size: 18px; font-weight: 700; color: #ffd700;">RM <span id="posterPremium">340</span></p>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 16px;">
+                        <div style="padding: 12px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                            <p style="margin: 0; font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">🚭 抽烟</p>
+                            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #ffffff;"><span id="posterSmoking">否</span></p>
+                        </div>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                            <p style="margin: 0; font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">💼 工作等级</p>
+                            <p style="margin: 0; font-size: 16px; font-weight: 700; color: #ffffff;"><span id="posterJobGrade">2</span></p>
+                        </div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <!-- Section 1 -->
+                    <div class="benefit-item">
+                        <div class="benefit-number">1️⃣</div>
+                        <div class="benefit-content">
+                            <div class="benefit-title">
+                                <span class="benefit-icon">👤</span>
+                                <span>身故/永久残疾</span>
+                            </div>
+                            <div class="sub-benefits">
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">💰</span>
+                                        <span>赔偿</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val1">RM 80,000</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">⬆️</span>
+                                        <span>人寿增长(1%)</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val2">RM 800</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2 -->
+                    <div class="benefit-item">
+                        <div class="benefit-number">2️⃣</div>
+                        <div class="benefit-content">
+                            <div class="benefit-title">
+                                <span class="benefit-icon">🏥</span>
+                                <span>重疾保障</span>
+                            </div>
+                            <div class="sub-benefits">
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">🛡️</span>
+                                        <span>覆盖情况</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val3" style="font-size: 10px; line-height: 1.4;">CIPR (50种)</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">💎</span>
+                                        <span>保额</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val4">RM 80,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3 -->
+                    <div class="benefit-item">
+                        <div class="benefit-number">3️⃣</div>
+                        <div class="benefit-content">
+                            <div class="benefit-title">
+                                <span class="benefit-icon">🏥</span>
+                                <span>医药卡</span>
+                            </div>
+                            <div class="sub-benefits">
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">🛏️</span>
+                                        <span>房&膳</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val5">RM 200</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">💸</span>
+                                        <span>自付</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val6">RM 500</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">📊</span>
+                                        <span>年限额</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val7">RM 15M</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">♾️</span>
+                                        <span>终身</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val8">无限</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4 -->
+                    <div class="benefit-item">
+                        <div class="benefit-number">4️⃣</div>
+                        <div class="benefit-content">
+                            <div class="benefit-title">
+                                <span class="benefit-icon">🏨</span>
+                                <span>住院津贴</span>
+                            </div>
+                            <div class="two-column-box">
+                                <div class="benefit-box">
+                                    <div class="benefit-box-label">私人</div>
+                                    <div class="benefit-box-value" id="val11">RM 200</div>
+                                </div>
+                                <div class="benefit-box">
+                                    <div class="benefit-box-label">政府</div>
+                                    <div class="benefit-box-value" id="val12">RM 400</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 5 -->
+                    <div class="benefit-item">
+                        <div class="benefit-number">5️⃣</div>
+                        <div class="benefit-content">
+                            <div class="benefit-title">
+                                <span class="benefit-icon">⚡</span>
+                                <span>意外保障</span>
+                            </div>
+                            <div class="sub-benefits">
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">💀</span>
+                                        <span>死亡</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val13">RM 100,000</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">🤕</span>
+                                        <span>医疗 (每次)</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val14">RM 15M</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid #d4b5ff;">
+                                <div class="two-column-box">
+                                    <div class="benefit-box">
+                                        <div class="benefit-box-label">病假 - 重伤</div>
+                                        <div class="benefit-box-value" id="val14c">RM 0.00</div>
+                                    </div>
+                                    <div class="benefit-box">
+                                        <div class="benefit-box-label">病假 - 轻伤</div>
+                                        <div class="benefit-box-value" id="val14d">RM 0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 6 -->
+                    <div class="benefit-item">
+                        <div class="benefit-number">6️⃣</div>
+                        <div class="benefit-content">
+                            <div class="benefit-title">
+                                <span class="benefit-icon">⚖️</span>
+                                <span>免付利益</span>
+                            </div>
+                            <div class="two-column-box">
+                                <div class="benefit-box">
+                                    <div class="benefit-box-label">被保人</div>
+                                    <div class="benefit-box-value" id="val15">100 岁</div>
+                                </div>
+                                <div class="benefit-box">
+                                    <div class="benefit-box-label">付款人</div>
+                                    <div class="benefit-box-value" id="val16">25 岁</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 7 -->
+                    <div class="benefit-item">
+                        <div class="benefit-number">7️⃣</div>
+                        <div class="benefit-content">
+                            <div class="benefit-title">
+                                <span class="benefit-icon">💰</span>
+                                <span>投资价值</span>
+                            </div>
+                            <div class="sub-benefits">
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">📅</span>
+                                        <span>10年</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val17">RM 12,350</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">📅</span>
+                                        <span>20年</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val18">RM 37,539</span>
+                                </div>
+                                <div class="sub-benefit">
+                                    <span class="sub-benefit-label">
+                                        <span class="sub-benefit-icon">📅</span>
+                                        <span>30年</span>
+                                    </span>
+                                    <span class="sub-benefit-value" id="val19">RM 70,233</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <div class="footer-text" data-i18n="footer.slogan">💝 为您和家人的美好未来</div>
+                    <div class="footer-subtext">Give Your Family Protection & Prosperity</div>
+                </div>
+            </div>
+
+            <!-- Medical Card Details -->
+            <div class="medical-card-container">
+                <div class="medical-card-header">
+                    <h2>🏥 <span id="medCardTitle">SHP</span> 医药卡</h2>
+                </div>
+
+                <div class="medical-card-content">
+                    <!-- Basic Info -->
+                    <div class="medical-section">
+                        <div class="medical-section-title">📋 基本信息</div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🛏️</span>
+                                <span>病房与膳食</span>
+                            </span>
+                            <span class="medical-item-value" id="med1">RM 200</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>💸</span>
+                                <span>自付额 (每年)</span>
+                            </span>
+                            <span class="medical-item-value" id="med2">RM 500</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>📊</span>
+                                <span>年度限额</span>
+                            </span>
+                            <span class="medical-item-value" id="med3">RM 15M</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>♾️</span>
+                                <span>终身限额</span>
+                            </span>
+                            <span class="medical-item-value" id="med4">无限</span>
+                        </div>
+                    </div>
+
+                    <!-- Hospitalization -->
+                    <div class="medical-section">
+                        <div class="medical-section-title">🏨 住院保障</div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🏨</span>
+                                <span>医院用品与服务</span>
+                            </span>
+                            <span class="medical-item-value" id="med5">RM 15M</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🔪</span>
+                                <span>手术费</span>
+                            </span>
+                            <span class="medical-item-value" id="med6">RM 15M</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🏥</span>
+                                <span>加护病房 (200天/年)</span>
+                            </span>
+                            <span class="medical-item-value" id="med7">如实收费</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>👨‍⚕️</span>
+                                <span>医生查房 (2次/天)</span>
+                            </span>
+                            <span class="medical-item-value" id="med8">如实收费</span>
+                        </div>
+                    </div>
+
+                    <!-- Pre/Post Hospital -->
+                    <div class="medical-section">
+                        <div class="medical-section-title">📅 前后治疗</div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>📅</span>
+                                <span>住院前治疗 (90天)</span>
+                            </span>
+                            <span class="medical-item-value" id="med9">如实收费</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>📅</span>
+                                <span>住院后治疗 (200天)</span>
+                            </span>
+                            <span class="medical-item-value" id="med10">如实收费</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🏠</span>
+                                <span>家庭看护 (200天)</span>
+                            </span>
+                            <span class="medical-item-value" id="med11">最多RM 8,000</span>
+                        </div>
+                    </div>
+
+                    <!-- Outpatient -->
+                    <div class="medical-section">
+                        <div class="medical-section-title">🏥 门诊保障</div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🦀</span>
+                                <span>癌症门诊治疗</span>
+                            </span>
+                            <span class="medical-item-value" id="med12">RM 15M</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🫀</span>
+                                <span>肾透析治疗</span>
+                            </span>
+                            <span class="medical-item-value" id="med13">如实收费</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🔬</span>
+                                <span>MRI/PET扫描</span>
+                            </span>
+                            <span class="medical-item-value" id="med14">最多RM 5,000</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>⚡</span>
+                                <span>意外门诊 (30天)</span>
+                            </span>
+                            <span class="medical-item-value" id="med15">如实收费</span>
+                        </div>
+                    </div>
+
+                    <!-- Daily Allowance -->
+                    <div class="medical-section">
+                        <div class="medical-section-title">💰 日常津贴</div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🏥</span>
+                                <span>政府医院津贴 (120天/年)</span>
+                            </span>
+                            <span class="medical-item-value" id="med16">RM 200/天</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>👥</span>
+                                <span>陪护津贴 (180天/年)</span>
+                            </span>
+                            <span class="medical-item-value" id="med17">RM 150/天</span>
+                        </div>
+                    </div>
+
+                    <!-- Additional -->
+                    <div class="medical-section">
+                        <div class="medical-section-title">✨ 额外保障</div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>👀</span>
+                                <span>眼睛植入晶体</span>
+                            </span>
+                            <span class="medical-item-value" id="med18">最多RM 8,000</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>🚑</span>
+                                <span>救护车服务</span>
+                            </span>
+                            <span class="medical-item-value" id="med19">如实收费</span>
+                        </div>
+                        <div class="medical-item">
+                            <span class="medical-item-label">
+                                <span>💀</span>
+                                <span>意外死亡</span>
+                            </span>
+                            <span class="medical-item-value" id="med20">RM 20,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 🌍 MULTI-LANGUAGE TRANSLATIONS
+        // ============================================
+
+        let currentLanguage = localStorage.getItem('preferredLanguage') || 'zh';
+
+        const translations = {
+            "en": {
+                "form.clientName": "Customer Name",
+                "form.age": "Age",
+                "form.gender": "Gender",
+                "form.smoking": "Smoking",
+                "form.jobGrade": "Job Grade",
+                "form.premium": "Monthly Premium",
+                "form.section1_title": "Death / Permanent Disability",
+                "form.section1_compensation": "Compensation Amount",
+                "form.section2_title": "Critical Illness Protection",
+                "form.section2_disease": "Disease Coverage",
+                "form.section2_amount": "Coverage Amount",
+                "form.section3_title": "Medical Card Details",
+                "form.section3_cardType": "Medical Card Type",
+                "form.section3_planLevel": "Plan Selection",
+                "form.section4_title": "Hospitalization Allowance",
+                "form.section4_private": "Private Hospital",
+                "form.section4_government": "Government Hospital",
+                "form.section5_title": "Accident Protection",
+                "form.section5_type": "Accident Type",
+                "form.section5_death": "Accidental Death",
+                "form.section5_medical": "Accidental Medical (Per Incident)",
+                "form.section5_sickLeave_major": "Sick Leave - Major Injury (Per Week)",
+                "form.section5_sickLeave_minor": "Sick Leave - Minor Injury (Per Week)",
+                "form.section6_title": "Waiver of Premium",
+                "form.section6_insured": "Insured Protected Until",
+                "form.section6_payor": "Payor Protected Until",
+                "form.section7_title": "Investment Value",
+                "form.section7_10year": "10-Year Investment Value",
+                "form.section7_20year": "20-Year Investment Value",
+                "form.section7_30year": "30-Year Investment Value",
+                "button.refresh": "Refresh Record",
+                "footer.slogan": "For Your and Your Family's Bright Future",
+                "medicalCard.shp": "SHP - Smart Health Protector",
+                "medicalCard.gmv": "GMV - GREAT MediValue",
+                "medicalCard.sms": "SMS - SmartMedic Shield",
+                "coverage.cibr": "CIBR (50 Illnesses, One-Time, Deducts Life)",
+                "coverage.cipr": "CIPR (50 Illnesses, One-Time, No Deduction)",
+                "coverage.smcc": "SMCC (188 Illnesses, Multiple Claims, No Deduction)",
+                "accident.addm": "Accidental Death & Dismemberment (Death Only)",
+                "accident.caber": "Comprehensive Accident Benefit (Proportional)",
+            },
+            "bm": {
+                "form.clientName": "Nama Pelanggan",
+                "form.age": "Umur",
+                "form.gender": "Jantina",
+                "form.smoking": "Merokok",
+                "form.jobGrade": "Gred Pekerjaan",
+                "form.premium": "Premium Bulanan",
+                "form.section1_title": "Kematian / Hilang Upaya Tetap",
+                "form.section1_compensation": "Jumlah Pampasan",
+                "form.section2_title": "Perlindungan Penyakit Kritikal",
+                "form.section2_disease": "Liputan Penyakit",
+                "form.section2_amount": "Jumlah Liputan",
+                "form.section3_title": "Butiran Kad Perubatan",
+                "form.section3_cardType": "Jenis Kad Perubatan",
+                "form.section3_planLevel": "Pilihan Pelan",
+                "form.section4_title": "Elaun Hospitaliti",
+                "form.section4_private": "Hospital Swasta",
+                "form.section4_government": "Hospital Kerajaan",
+                "form.section5_title": "Perlindungan Kemalangan",
+                "form.section5_type": "Jenis Kemalangan",
+                "form.section5_death": "Kematian Kemalangan",
+                "form.section5_medical": "Perubatan Kemalangan (Setiap Kejadian)",
+                "form.section5_sickLeave_major": "Cuti Sakit - Kecederaan Serius (Seminggu)",
+                "form.section5_sickLeave_minor": "Cuti Sakit - Kecederaan Ringan (Seminggu)",
+                "form.section6_title": "Pengampunan Premium",
+                "form.section6_insured": "Pihak Diinsuranskan Dilindungi Sehingga",
+                "form.section6_payor": "Pembayar Dilindungi Sehingga",
+                "form.section7_title": "Nilai Pelaburan",
+                "form.section7_10year": "Nilai Pelaburan 10 Tahun",
+                "form.section7_20year": "Nilai Pelaburan 20 Tahun",
+                "form.section7_30year": "Nilai Pelaburan 30 Tahun",
+                "button.refresh": "Refresh Rekod",
+                "footer.slogan": "Untuk Masa Depan Cerah Anda dan Keluarga",
+                "medicalCard.shp": "SHP - Smart Health Protector",
+                "medicalCard.gmv": "GMV - GREAT MediValue",
+                "medicalCard.sms": "SMS - SmartMedic Shield",
+                "coverage.cibr": "CIBR (50 Penyakit, Sekali Bayar, Tolak Hayat)",
+                "coverage.cipr": "CIPR (50 Penyakit, Sekali Bayar, Tiada Tolakan)",
+                "coverage.smcc": "SMCC (188 Penyakit, Berbilang Tuntutan, Tiada Tolakan)",
+                "accident.addm": "Kematian & Cacat Tubuh Kemalangan (Kematian Sahaja)",
+                "accident.caber": "Manfaat Kemalangan Komprehensif (Berkadar)",
+            },
+            "th": {
+                "form.clientName": "ชื่อลูกค้า",
+                "form.age": "อายุ",
+                "form.gender": "เพศ",
+                "form.smoking": "สูบบุหรี่",
+                "form.jobGrade": "ระดับงาน",
+                "form.premium": "เบี้ยประกันรายเดือน",
+                "form.section1_title": "ความตาย / ความพิการถาวร",
+                "form.section1_compensation": "จำนวนชดเชย",
+                "form.section2_title": "ความคุ้มครองโรคร้ายแรง",
+                "form.section2_disease": "การครอบคลุมโรค",
+                "form.section2_amount": "จำนวนความคุ้มครอง",
+                "form.section3_title": "รายละเอียดบัตรประกันสุขภาพ",
+                "form.section3_cardType": "ประเภทบัตรประกันสุขภาพ",
+                "form.section3_planLevel": "เลือกแผน",
+                "form.section4_title": "ค่าเดินทางรักษาในโรงพยาบาล",
+                "form.section4_private": "โรงพยาบาลเอกชน",
+                "form.section4_government": "โรงพยาบาลรัฐ",
+                "form.section5_title": "ความคุ้มครองอุบัติเหตุ",
+                "form.section5_type": "ประเภทอุบัติเหตุ",
+                "form.section5_death": "ความตายจากอุบัติเหตุ",
+                "form.section5_medical": "การรักษาทางการแพทย์จากอุบัติเหตุ (ต่อครั้ง)",
+                "form.section5_sickLeave_major": "วันลาป่วย - บาดเจ็บสาหัส (ต่อสัปดาห์)",
+                "form.section5_sickLeave_minor": "วันลาป่วย - บาดเจ็บเบา (ต่อสัปดาห์)",
+                "form.section6_title": "การยกเว้นเบี้ยประกัน",
+                "form.section6_insured": "ผู้ประกันตนได้รับความคุ้มครองจนถึง",
+                "form.section6_payor": "ผู้จ่ายเบี้ยได้รับความคุ้มครองจนถึง",
+                "form.section7_title": "มูลค่าการลงทุน",
+                "form.section7_10year": "มูลค่าการลงทุน 10 ปี",
+                "form.section7_20year": "มูลค่าการลงทุน 20 ปี",
+                "form.section7_30year": "มูลค่าการลงทุน 30 ปี",
+                "button.refresh": "รีเซ็ตระเบียน",
+                "footer.slogan": "เพื่ออนาคตที่สดใสของคุณและครอบครัว",
+                "medicalCard.shp": "SHP - Smart Health Protector",
+                "medicalCard.gmv": "GMV - GREAT MediValue",
+                "medicalCard.sms": "SMS - SmartMedic Shield",
+                "coverage.cibr": "CIBR (50 โรค ชำระครั้งเดียว ตัดชีวิต)",
+                "coverage.cipr": "CIPR (50 โรค ชำระครั้งเดียว ไม่ตัดชีวิต)",
+                "coverage.smcc": "SMCC (188 โรค หลายครั้ง ไม่ตัดชีวิต)",
+                "accident.addm": "ความตายและความพิการจากอุบัติเหตุ (ความตายเท่านั้น)",
+                "accident.caber": "ความคุ้มครองอุบัติเหตุที่ครอบคลุม (ตามสัดส่วน)",
+            },
+            "zh": {
+                "form.clientName": "客户名字",
+                "form.age": "年龄",
+                "form.gender": "性别",
+                "form.smoking": "抽烟",
+                "form.jobGrade": "工作等级",
+                "form.premium": "月保费",
+                "form.section1_title": "👤 1️⃣ 身故/永久残疾",
+                "form.section1_compensation": "赔偿金额",
+                "form.section2_title": "🏥 2️⃣ 重疾保障",
+                "form.section2_disease": "覆盖疾病",
+                "form.section2_amount": "保额",
+                "form.section3_title": "🏥 医药卡详情",
+                "form.section3_cardType": "医药卡类型",
+                "form.section3_planLevel": "计划选择 (Plan Selection)",
+                "form.section4_title": "🏨 4️⃣ 住院津贴",
+                "form.section4_private": "私人医院",
+                "form.section4_government": "政府医院",
+                "form.section5_title": "⚡ 5️⃣ 意外保障",
+                "form.section5_type": "意外保障类型",
+                "form.section5_death": "意外死亡",
+                "form.section5_medical": "意外受伤医疗 (每次)",
+                "form.section5_sickLeave_major": "意外病假 - 重伤 (每星期)",
+                "form.section5_sickLeave_minor": "意外病假 - 轻伤 (每星期)",
+                "form.section6_title": "⚖️ 6️⃣ 免付利益",
+                "form.section6_insured": "被保人保障至",
+                "form.section6_payor": "付款人保障至",
+                "form.section7_title": "💰 7️⃣ 投资价值",
+                "form.section7_10year": "10年投资价值",
+                "form.section7_20year": "20年投资价值",
+                "form.section7_30year": "30年投资价值",
+                "button.refresh": "🔄 刷新纪录",
+                "footer.slogan": "💝 为您和家人的美好未来",
+                "medicalCard.shp": "SHP - Smart Health Protector",
+                "medicalCard.gmv": "GMV - GREAT MediValue",
+                "medicalCard.sms": "SMS - SmartMedic Shield",
+                "coverage.cibr": "CIBR (50种严重疾病, 一次性赔偿, 会扣除人寿)",
+                "coverage.cipr": "CIPR (50种严重疾病, 一次性赔偿, 不会扣除人寿)",
+                "coverage.smcc": "SMCC (188种 中期、晚期疾病, 多次性赔偿, 不会扣除人寿)",
+                "accident.addm": "仅死亡",
+                "accident.caber": "按比例计算",
+            },
+            "mixed": {
+                "form.clientName": "Customer Name",
+                "form.age": "Age",
+                "form.gender": "Gender",
+                "form.smoking": "Smoking",
+                "form.jobGrade": "Job Grade",
+                "form.premium": "Monthly Premium",
+                "form.section1_title": "Death / Permanent Disability",
+                "form.section1_compensation": "Compensation Amount",
+                "form.section2_title": "Critical Illness Protection",
+                "form.section2_disease": "Disease Coverage",
+                "form.section2_amount": "Coverage Amount",
+                "form.section3_title": "Medical Card Details",
+                "form.section3_cardType": "Medical Card Type",
+                "form.section3_planLevel": "Plan Selection",
+                "form.section4_title": "Hospitalization Allowance",
+                "form.section4_private": "Private Hospital",
+                "form.section4_government": "Government Hospital",
+                "form.section5_title": "Accident Protection",
+                "form.section5_type": "Accident Type",
+                "form.section5_death": "Accidental Death",
+                "form.section5_medical": "Accidental Medical (Per Incident)",
+                "form.section5_sickLeave_major": "Sick Leave - Major Injury (Per Week)",
+                "form.section5_sickLeave_minor": "Sick Leave - Minor Injury (Per Week)",
+                "form.section6_title": "Waiver of Premium",
+                "form.section6_insured": "Insured Protected Until",
+                "form.section6_payor": "Payor Protected Until",
+                "form.section7_title": "Investment Value",
+                "form.section7_10year": "10-Year Investment Value",
+                "form.section7_20year": "20-Year Investment Value",
+                "form.section7_30year": "30-Year Investment Value",
+                "button.refresh": "Refresh Record",
+            }
+        };
+
+        // Translate function
+        function t(key, lang = currentLanguage) {
+            return translations[lang]?.[key] || translations['zh']?.[key] || key;
+        }
+
+        // Set language
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+
+            // Update button states
+            document.querySelectorAll('.language-selector button').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Apply translations
+            applyTranslations();
+        }
+
+        // Apply translations to all elements
+        function applyTranslations() {
+            // 更新所有有 data-i18n 属性的元素
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.dataset.i18n;
+                const text = t(key);
+                if(element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+                    element.placeholder = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+
+            // 更新医药卡产品名称
+            const cardType = document.getElementById('cardType')?.value || 'SHP';
+            document.getElementById('medCardTitle').textContent = t(`medicalCard.${cardType}`);
+
+            console.log('✅ Translations applied for language:', currentLanguage);
+        }
+
+        // Medical Card Data
+        const medicalCardsInfo = {
+            SHP: {
+                name: "Smart Health Protector",
+                type: "Plan-based",
+                plans: "5 deductible options (500, 2,500, 5,000, 20,000, 20,000+Ret)",
+                roomBoard: "RM 200/day",
+                annualLimit: "RM 3.0M",
+                lifetimeLimit: "No limit",
+                description: "Plan-based medical card with flexible deductible options",
+                options: [
+                    { value: "SHP-500", label: "- SHP: R&B 200 - Deductible RM500", deductible: "RM 500" },
+                    { value: "SHP-2500", label: "- SHP: R&B 200 - Deductible RM2,500", deductible: "RM 2,500" },
+                    { value: "SHP-5000", label: "- SHP: R&B 200 - Deductible RM5,000", deductible: "RM 5,000" },
+                    { value: "SHP-20000", label: "- SHP: R&B 200 - Deductible RM20,000", deductible: "RM 20,000" },
+                    { value: "SHP-20000-RET", label: "- SHP: R&B 200 - Deductible RM20,000 with Retirement Option", deductible: "RM 20,000" }
+                ]
+            },
+            GMV: {
+                name: "GREAT MediValue",
+                type: "Plan-based",
+                plans: "5 deductible options (500, 2,500, 5,000, 20,000, 20,000+Ret)",
+                roomBoard: "RM 200/day",
+                annualLimit: "RM 3.0M",
+                lifetimeLimit: "No limit",
+                description: "Plan-based medical card with great value coverage",
+                options: [
+                    { value: "GMV-500", label: "- GMV: R&B 200 - Deductible RM500", deductible: "RM 500" },
+                    { value: "GMV-2500", label: "- GMV: R&B 200 - Deductible RM2,500", deductible: "RM 2,500" },
+                    { value: "GMV-5000", label: "- GMV: R&B 200 - Deductible RM5,000", deductible: "RM 5,000" },
+                    { value: "GMV-20000", label: "- GMV: R&B 200 - Deductible RM20,000", deductible: "RM 20,000" },
+                    { value: "GMV-20000-RET", label: "- GMV: R&B 200 - Deductible RM20,000 with Retirement Option", deductible: "RM 20,000" }
+                ]
+            },
+            SMS: {
+                name: "SmartMedic Shield",
+                type: "Room-based",
+                plans: "6 room level options (SMS & SMSP)",
+                roomBoard: "RM 150-400/day (based on room level)",
+                annualLimit: "RM 1.0M",
+                lifetimeLimit: "No limit",
+                description: "Room-based medical card with multiple room options including Shield Plus",
+                options: [
+                    { value: "SMS-150", label: "- SMS: Room Level RM 150/day", roomLevel: "RM 150/day" },
+                    { value: "SMS-250", label: "- SMS: Room Level RM 250/day", roomLevel: "RM 250/day" },
+                    { value: "SMS-400", label: "- SMS: Room Level RM 400/day", roomLevel: "RM 400/day" },
+                    { value: "SMSP-150", label: "- SMSP: Room Level RM 150/day", roomLevel: "RM 150/day" },
+                    { value: "SMSP-250", label: "- SMSP: Room Level RM 250/day", roomLevel: "RM 250/day" },
+                    { value: "SMSP-400", label: "- SMSP: Room Level RM 400/day", roomLevel: "RM 400/day" }
+                ]
+            }
+        };
+
+        function updatePlanOptions() {
+            const cardType = document.getElementById('cardType').value;
+            const planLevelSelect = document.getElementById('planLevel');
+            const planLevelLabel = document.getElementById('planLevelLabel');
+            const cardInfo = medicalCardsInfo[cardType];
+
+            // Clear existing options except first one
+            planLevelSelect.innerHTML = '';
+
+            // Add default option
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.textContent = '-- 选择' + (cardInfo.type === 'Plan-based' ? '计划' : '房间等级') + ' --';
+            planLevelSelect.appendChild(defaultOpt);
+
+            // Update label
+            planLevelLabel.textContent = cardInfo.type === 'Plan-based' ? '计划选择 (Plan Selection)' : '房间费用等级 (Room Level)';
+
+            // Add all options
+            cardInfo.options.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.label;
+                planLevelSelect.appendChild(opt);
+            });
+
+            console.log('✅ Updated plan options for', cardType, '- Total:', cardInfo.options.length);
+        }
+
+        function updateMedicalCardInfo() {
+            const selectedCard = document.getElementById('cardType').value;
+            const cardInfo = medicalCardsInfo[selectedCard];
+
+            let html = `
+                <div style="padding: 0; margin: 0;">
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #F59E0B;">医药卡名称:</strong> ${cardInfo.name}
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #F59E0B;">类型:</strong> ${cardInfo.type}
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #F59E0B;">计划选项:</strong> ${cardInfo.plans}
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #F59E0B;">病房膳食:</strong> ${cardInfo.roomBoard}
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #F59E0B;">年度限额:</strong> ${cardInfo.annualLimit}
+                    </div>
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #F59E0B;">终身限额:</strong> ${cardInfo.lifetimeLimit}
+                    </div>
+                    <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #FCD34D; font-size: 11px; color: #B45309;">
+                        ${cardInfo.description}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('medicalCardDetails').innerHTML = html;
+        }
+
+        function updatePreview() {
+            // Update poster header with complete customer info
+            const cardType = document.getElementById('cardType').value;
+            document.getElementById('posterClientName').textContent = document.getElementById('clientName').value;
+            document.getElementById('posterAge').textContent = document.getElementById('age').value;
+            document.getElementById('posterGender').textContent = document.getElementById('gender').value;
+            document.getElementById('posterSmoking').textContent = document.getElementById('smoking').value;
+            document.getElementById('posterJobGrade').textContent = document.getElementById('jobGrade').value;
+            document.getElementById('posterPremium').textContent = document.getElementById('premium').value;
+
+            // Fields that should have RM prefix
+            const rmFields = [1, 4, 11, 12, 13, 14, 14, 17, 18, 19];
+
+            // Update all poster values (1-19 + new fields)
+            for (let i = 1; i <= 19; i++) {
+                const inputElement = document.getElementById(`input${i}`);
+                const valueElement = document.getElementById(`val${i}`);
+                if (inputElement && valueElement) {
+                    // Special handling for val2 (人寿增长)
+                    if (i === 2) {
+                        // Calculate 1% of input1 (赔偿金额) - exact calculation
+                        const input1Value = document.getElementById('input1').value;
+                        const cleanValue = input1Value.replace(/[^\d]/g, ''); // Remove non-digits
+                        if (cleanValue) {
+                            const lifeGrowth = Math.floor(parseInt(cleanValue) * 0.01);
+                            valueElement.textContent = '1% (RM ' + lifeGrowth.toLocaleString() + ')';
+                        } else {
+                            valueElement.textContent = '1% (RM 0)';
+                        }
+                        continue;
+                    }
+
+                    // Special handling for val3 (重疾保障覆盖)
+                    if (i === 3) {
+                        const input3Value = document.getElementById('input3').value;
+                        const ciDescriptions = {
+                            'CIBR': 'CIBR (50种严重疾病, 一次性赔偿, 会扣除人寿)',
+                            'CIPR': 'CIPR (50种严重疾病, 一次性赔偿, 不会扣除人寿)',
+                            'SMCC': 'SMCC (188种 中期、晚期疾病, 多次性赔偿, 不会扣除人寿)'
+                        };
+                        valueElement.textContent = ciDescriptions[input3Value] || 'CIPR (50种)';
+                        continue;
+                    }
+
+                    // Special handling for val7 (年限额 - from medical card info)
+                    if (i === 7) {
+                        const cardType = document.getElementById('cardType').value;
+                        const cardInfo = medicalCardsInfo[cardType];
+                        valueElement.textContent = cardInfo.annualLimit;
+                        continue;
+                    }
+
+                    let displayValue = inputElement.value;
+                    // Add RM prefix for currency fields
+                    if (rmFields.includes(i) && displayValue && !displayValue.startsWith('RM')) {
+                        displayValue = 'RM ' + displayValue;
+                    }
+                    valueElement.textContent = displayValue;
+                }
+            }
+
+            // Update extra accident benefit fields
+            const input14cElement = document.getElementById('input14c');
+            const val14cElement = document.getElementById('val14c');
+            if (input14cElement && val14cElement) {
+                let displayValue = input14cElement.value;
+                if (displayValue) {
+                    // Format to 2 decimal places
+                    const numValue = parseFloat(displayValue.replace(/[^\d.]/g, ''));
+                    if (!isNaN(numValue)) {
+                        displayValue = 'RM ' + numValue.toFixed(2);
+                    }
+                }
+                val14cElement.textContent = displayValue || 'RM 0.00';
+            }
+
+            const input14dElement = document.getElementById('input14d');
+            const val14dElement = document.getElementById('val14d');
+            if (input14dElement && val14dElement) {
+                let displayValue = input14dElement.value;
+                if (displayValue) {
+                    // Format to 2 decimal places
+                    const numValue = parseFloat(displayValue.replace(/[^\d.]/g, ''));
+                    if (!isNaN(numValue)) {
+                        displayValue = 'RM ' + numValue.toFixed(2);
+                    }
+                }
+                val14dElement.textContent = displayValue || 'RM 0.00';
+            }
+
+            // Update medical card header - use existing cardType variable
+            document.getElementById('medCardTitle').textContent = cardType;
+
+            // Update medical card values from medicalCardsInfo
+            const cardInfo = medicalCardsInfo[cardType];
+
+            // med1: 病房与膳食 (Room Board)
+            document.getElementById('med1').textContent = cardInfo.roomBoard;
+
+            // med2: 自付额 (Deductible) - Get from selected plan
+            const planLevel = document.getElementById('planLevel').value;
+            let deductible = 'RM 500'; // Default deductible
+            if (planLevel) {
+                const selectedPlan = cardInfo.options.find(opt => opt.value === planLevel);
+                if (selectedPlan) {
+                    // Use deductible field if available (plan-based), otherwise roomLevel (room-based)
+                    deductible = selectedPlan.deductible || selectedPlan.roomLevel || 'RM 500';
+                }
+            }
+            document.getElementById('med2').textContent = deductible;
+
+            // med3: 年度限额 (Annual Limit)
+            document.getElementById('med3').textContent = cardInfo.annualLimit;
+
+            // med4: 终身限额 (Lifetime Limit)
+            document.getElementById('med4').textContent = cardInfo.lifetimeLimit;
+
+            // med5 and med6 - these need proper sources
+            // For now, keep them from input9 and input10 if they exist, otherwise use placeholder
+            const input9 = document.getElementById('input9');
+            const input10 = document.getElementById('input10');
+            document.getElementById('med5').textContent = input9 ? input9.value : 'RM 15M';
+            document.getElementById('med6').textContent = input10 ? input10.value : 'RM 15M';
+        }
+
+        // Update accident benefits based on type and death amount
+        function updateAccidentBenefits() {
+            const accidentType = document.getElementById('accidentType').value;
+            const input13Value = document.getElementById('input13').value;
+            const cleanDeathValue = input13Value.replace(/[^\d]/g, ''); // Remove non-digits
+
+            const input14Group = document.getElementById('input14Group');
+            const injuryGroup = document.getElementById('injuryGroup');
+
+            if (accidentType === 'ADDM') {
+                // ACCIDENTAL DEATH & DISMEMBERMENT BENEFIT - only death
+                input14Group.style.display = 'none';
+                injuryGroup.style.display = 'none';
+
+                // Clear other values
+                document.getElementById('input14').value = '';
+                document.getElementById('input14c').value = '';
+                document.getElementById('input14d').value = '';
+            } else {
+                // COMPREHENSIVE ACCIDENT BENEFIT XTRA RIDER - calculate based on death amount
+                input14Group.style.display = 'block';
+                injuryGroup.style.display = 'grid';
+
+                if (cleanDeathValue) {
+                    const deathAmount = parseInt(cleanDeathValue);
+                    // Calculate: death 10000 = medical RM250, sick leave RM17.50, major injury RM75
+                    const medical = Math.round((deathAmount / 10000) * 250);
+                    const sickLeaveMinor = ((deathAmount / 10000) * 17.50).toFixed(2);
+                    const sickLeaveMajor = ((deathAmount / 10000) * 75).toFixed(2);
+
+                    document.getElementById('input14').value = medical.toLocaleString();
+                    document.getElementById('input14c').value = sickLeaveMajor;
+                    document.getElementById('input14d').value = sickLeaveMinor;
+                }
+            }
+            updatePreview();
+        }
+
+        // Reset form to default values
+        function resetForm() {
+            console.log('🔄 开始重置表单...');
+
+            // Reset personal info
+            document.getElementById('clientName').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('gender').value = '女';
+            document.getElementById('smoking').value = '否';
+            document.getElementById('jobGrade').value = '2';
+            document.getElementById('premium').value = '';
+
+            // Reset benefit sections - Section 1
+            document.getElementById('input1').value = '';
+
+            // Reset benefit sections - Section 2
+            document.getElementById('input3').value = 'CIPR';
+            document.getElementById('input4').value = '';
+
+            // Reset medical card
+            document.getElementById('cardType').value = 'SHP';
+            document.getElementById('planLevel').value = '';
+
+            // Reset benefit sections - Section 4
+            document.getElementById('input11').value = '';
+            document.getElementById('input12').value = '';
+
+            // Reset benefit sections - Section 5
+            document.getElementById('accidentType').value = 'ADDM';
+            document.getElementById('input13').value = '';
+            document.getElementById('input14').value = '';
+            document.getElementById('input14c').value = '';
+            document.getElementById('input14d').value = '';
+
+            // Reset benefit sections - Section 6
+            document.getElementById('input15').value = '';
+            document.getElementById('input16').value = '';
+
+            // Reset benefit sections - Section 7
+            document.getElementById('input17').value = '';
+            document.getElementById('input18').value = '';
+            document.getElementById('input19').value = '';
+
+            // Trigger updates to refresh preview
+            setTimeout(() => {
+                updatePlanOptions();
+                updateMedicalCardInfo();
+                updatePreview();
+                console.log('✅ 表单已重置，可以输入下一个顾客资料');
+            }, 100);
+
+            // Focus on first input
+            document.getElementById('clientName').focus();
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📍 Initializing Insurance Sales Poster Builder v2...');
+
+            // 🌍 Initialize language
+            try {
+                setLanguage(currentLanguage);
+                console.log('✅ Language initialized:', currentLanguage);
+            } catch(e) {
+                console.error('❌ Error initializing language:', e);
+            }
+
+            // Initialize all UI updates
+            try {
+                updatePlanOptions();
+                console.log('✅ Plan options initialized');
+            } catch(e) {
+                console.error('❌ Error initializing plan options:', e);
+            }
+
+            try {
+                updateMedicalCardInfo();
+                console.log('✅ Medical card info initialized');
+            } catch(e) {
+                console.error('❌ Error initializing medical card info:', e);
+            }
+
+            try {
+                updateAccidentBenefits();
+                console.log('✅ Accident benefits initialized');
+            } catch(e) {
+                console.error('❌ Error initializing accident benefits:', e);
+            }
+
+            try {
+                updatePreview();
+                console.log('✅ Preview updated');
+            } catch(e) {
+                console.error('❌ Error updating preview:', e);
+            }
+
+            // Add explicit event listener for cardType changes
+            const cardTypeSelect = document.getElementById('cardType');
+            if (cardTypeSelect) {
+                cardTypeSelect.addEventListener('change', function() {
+                    console.log('🔄 Card type changed to:', this.value);
+                    updatePlanOptions();
+                    updateMedicalCardInfo();
+                    updatePreview();
+                });
+                console.log('✅ Event listener added to cardType select');
+            }
+
+            console.log('✅ Insurance Sales Poster Builder v2 fully initialized');
+        });
+    </script>
+</body>
+</html>
