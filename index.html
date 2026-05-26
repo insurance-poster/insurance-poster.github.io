@@ -443,41 +443,63 @@
             }
 
             .main-container {
-                grid-template-columns: 1fr;
-                gap: 0;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
                 max-width: 100%;
             }
 
             .input-panel {
+                position: static;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 10px;
+                max-height: 280mm;
+                overflow: hidden;
+            }
+
+            .input-panel h2 {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .section-group {
+                margin-bottom: 8px;
+                padding-bottom: 8px;
+                font-size: 11px;
+                page-break-inside: avoid;
+            }
+
+            .form-group label {
+                font-size: 10px;
+            }
+
+            .form-group input,
+            .form-group select {
+                font-size: 10px;
+                padding: 4px;
+            }
+
+            .print-btn {
                 display: none;
             }
 
             .preview-panel {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                grid-template-columns: 1fr;
+                gap: 0;
                 page-break-inside: avoid;
             }
 
-            .poster-container,
-            .medical-card-container {
+            .poster-container {
                 position: static;
                 box-shadow: none;
                 border-radius: 0;
                 page-break-inside: avoid;
                 max-height: 280mm;
-            }
-
-            .poster-container {
                 width: 100%;
             }
 
             .medical-card-container {
-                width: 100%;
-            }
-
-            .input-panel h2,
-            .section-group {
-                page-break-inside: avoid;
+                display: none;
             }
         }
 
@@ -704,7 +726,7 @@
             </div>
 
             <button class="print-btn" onclick="resetForm()" data-i18n="button.refresh">🔄 刷新纪录</button>
-            <button class="print-btn" onclick="window.print()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🖨️ 打印/下载PDF</button>
+            <button class="print-btn" onclick="window.print()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); margin-top: 10px;">🖨️ 打印/下载PDF</button>
         </div>
 
         <!-- Right Panel - Poster + Medical Card -->
