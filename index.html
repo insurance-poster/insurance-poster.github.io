@@ -111,21 +111,26 @@
 
         .print-btn {
             width: 100%;
-            padding: 11px;
+            padding: 12px;
             background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
             color: white;
             border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
-            margin-top: 12px;
-            transition: all 0.3s;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(91, 33, 182, 0.2);
         }
 
         .print-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(91, 33, 182, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(91, 33, 182, 0.4);
+        }
+
+        .print-btn:active {
+            transform: translateY(-1px);
         }
 
         /* Right Panel - Poster + Medical Card */
@@ -699,7 +704,7 @@
             </div>
 
             <button class="print-btn" onclick="resetForm()" data-i18n="button.refresh">🔄 刷新纪录</button>
-            <button class="print-btn" onclick="window.print()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); margin-top: 8px;">🖨️ 打印/下载PDF</button>
+            <button class="print-btn" onclick="window.print()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">🖨️ 打印/下载PDF</button>
         </div>
 
         <!-- Right Panel - Poster + Medical Card -->
