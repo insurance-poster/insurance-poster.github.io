@@ -429,7 +429,8 @@
         @media print {
             body {
                 background: white;
-                padding: 0;
+                padding: 10px;
+                margin: 0;
             }
 
             .language-selector {
@@ -439,6 +440,7 @@
             .main-container {
                 grid-template-columns: 1fr;
                 gap: 0;
+                max-width: 100%;
             }
 
             .input-panel {
@@ -446,7 +448,9 @@
             }
 
             .preview-panel {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                page-break-inside: avoid;
             }
 
             .poster-container,
@@ -454,6 +458,21 @@
                 position: static;
                 box-shadow: none;
                 border-radius: 0;
+                page-break-inside: avoid;
+                max-height: 280mm;
+            }
+
+            .poster-container {
+                width: 100%;
+            }
+
+            .medical-card-container {
+                width: 100%;
+            }
+
+            .input-panel h2,
+            .section-group {
+                page-break-inside: avoid;
             }
         }
 
