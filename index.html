@@ -489,11 +489,11 @@
     <div class="main-container">
         <!-- Left Panel - Input Form -->
         <div class="input-panel">
-            <h2>⚙️ 编辑保险海报</h2>
+            <h2 data-i18n="form.title">⚙️ 编辑保险海报</h2>
 
             <!-- Personal Info -->
             <div class="section-group">
-                <div class="section-title" data-i18n="form.section1_title">📋 个人资料</div>
+                <div class="section-title" data-i18n="form.personalInfo">📋 个人资料</div>
                 <div class="form-group">
                     <label data-i18n="form.clientName">客户名字</label>
                     <input type="text" id="clientName" value="evelynn" oninput="updatePreview()">
@@ -533,7 +533,7 @@
 
             <!-- Premium Info -->
             <div class="section-group">
-                <div class="section-title">💰 保费信息</div>
+                <div class="section-title" data-i18n="form.premiumInfo">💰 保费信息</div>
                 <div class="form-group">
                     <label data-i18n="form.premium">月保费</label>
                     <div style="display: flex; align-items: center; gap: 6px;">
@@ -568,7 +568,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>保额</label>
+                    <label data-i18n="form.section2_amount">保额</label>
                     <div style="display: flex; align-items: center; gap: 6px;">
                         <span style="font-weight: 600; color: #5b21b6;">RM</span>
                         <input type="text" id="input4" value="80,000" oninput="updatePreview()" style="flex: 1;">
@@ -1122,38 +1122,41 @@
 
         const translations = {
             "en": {
+                "form.title": "⚙️ Edit Insurance Poster",
+                "form.personalInfo": "📋 Personal Information",
                 "form.clientName": "Customer Name",
                 "form.age": "Age",
                 "form.gender": "Gender",
                 "form.smoking": "Smoking",
                 "form.jobGrade": "Job Grade",
+                "form.premiumInfo": "💰 Premium Information",
                 "form.premium": "Monthly Premium",
-                "form.section1_title": "Death / Permanent Disability",
+                "form.section1_title": "👤 1️⃣ Death / Permanent Disability",
                 "form.section1_compensation": "Compensation Amount",
-                "form.section2_title": "Critical Illness Protection",
+                "form.section2_title": "🏥 2️⃣ Critical Illness Protection",
                 "form.section2_disease": "Disease Coverage",
                 "form.section2_amount": "Coverage Amount",
-                "form.section3_title": "Medical Card Details",
+                "form.section3_title": "🏥 Medical Card Details",
                 "form.section3_cardType": "Medical Card Type",
                 "form.section3_planLevel": "Plan Selection",
-                "form.section4_title": "Hospitalization Allowance",
+                "form.section4_title": "🏨 4️⃣ Hospitalization Allowance",
                 "form.section4_private": "Private Hospital",
                 "form.section4_government": "Government Hospital",
-                "form.section5_title": "Accident Protection",
+                "form.section5_title": "⚡ 5️⃣ Accident Protection",
                 "form.section5_type": "Accident Type",
                 "form.section5_death": "Accidental Death",
                 "form.section5_medical": "Accidental Medical (Per Incident)",
                 "form.section5_sickLeave_major": "Sick Leave - Major Injury (Per Week)",
                 "form.section5_sickLeave_minor": "Sick Leave - Minor Injury (Per Week)",
-                "form.section6_title": "Waiver of Premium",
+                "form.section6_title": "⚖️ 6️⃣ Waiver of Premium",
                 "form.section6_insured": "Insured Protected Until",
                 "form.section6_payor": "Payor Protected Until",
-                "form.section7_title": "Investment Value",
+                "form.section7_title": "💰 7️⃣ Investment Value",
                 "form.section7_10year": "10-Year Investment Value",
                 "form.section7_20year": "20-Year Investment Value",
                 "form.section7_30year": "30-Year Investment Value",
-                "button.refresh": "Refresh Record",
-                "footer.slogan": "For Your and Your Family's Bright Future",
+                "button.refresh": "🔄 Refresh Record",
+                "footer.slogan": "💝 For Your and Your Family's Bright Future",
                 "medicalCard.shp": "SHP - Smart Health Protector",
                 "medicalCard.gmv": "GMV - GREAT MediValue",
                 "medicalCard.sms": "SMS - SmartMedic Shield",
@@ -1164,38 +1167,41 @@
                 "accident.caber": "Comprehensive Accident Benefit (Proportional)",
             },
             "bm": {
+                "form.title": "⚙️ Edit Poster Insurans",
+                "form.personalInfo": "📋 Maklumat Peribadi",
                 "form.clientName": "Nama Pelanggan",
                 "form.age": "Umur",
                 "form.gender": "Jantina",
                 "form.smoking": "Merokok",
                 "form.jobGrade": "Gred Pekerjaan",
+                "form.premiumInfo": "💰 Maklumat Premium",
                 "form.premium": "Premium Bulanan",
-                "form.section1_title": "Kematian / Hilang Upaya Tetap",
+                "form.section1_title": "👤 1️⃣ Kematian / Hilang Upaya Tetap",
                 "form.section1_compensation": "Jumlah Pampasan",
-                "form.section2_title": "Perlindungan Penyakit Kritikal",
+                "form.section2_title": "🏥 2️⃣ Perlindungan Penyakit Kritikal",
                 "form.section2_disease": "Liputan Penyakit",
                 "form.section2_amount": "Jumlah Liputan",
-                "form.section3_title": "Butiran Kad Perubatan",
+                "form.section3_title": "🏥 Butiran Kad Perubatan",
                 "form.section3_cardType": "Jenis Kad Perubatan",
                 "form.section3_planLevel": "Pilihan Pelan",
-                "form.section4_title": "Elaun Hospitaliti",
+                "form.section4_title": "🏨 4️⃣ Elaun Hospitaliti",
                 "form.section4_private": "Hospital Swasta",
                 "form.section4_government": "Hospital Kerajaan",
-                "form.section5_title": "Perlindungan Kemalangan",
+                "form.section5_title": "⚡ 5️⃣ Perlindungan Kemalangan",
                 "form.section5_type": "Jenis Kemalangan",
                 "form.section5_death": "Kematian Kemalangan",
                 "form.section5_medical": "Perubatan Kemalangan (Setiap Kejadian)",
                 "form.section5_sickLeave_major": "Cuti Sakit - Kecederaan Serius (Seminggu)",
                 "form.section5_sickLeave_minor": "Cuti Sakit - Kecederaan Ringan (Seminggu)",
-                "form.section6_title": "Pengampunan Premium",
+                "form.section6_title": "⚖️ 6️⃣ Pengampunan Premium",
                 "form.section6_insured": "Pihak Diinsuranskan Dilindungi Sehingga",
                 "form.section6_payor": "Pembayar Dilindungi Sehingga",
-                "form.section7_title": "Nilai Pelaburan",
+                "form.section7_title": "💰 7️⃣ Nilai Pelaburan",
                 "form.section7_10year": "Nilai Pelaburan 10 Tahun",
                 "form.section7_20year": "Nilai Pelaburan 20 Tahun",
                 "form.section7_30year": "Nilai Pelaburan 30 Tahun",
-                "button.refresh": "Refresh Rekod",
-                "footer.slogan": "Untuk Masa Depan Cerah Anda dan Keluarga",
+                "button.refresh": "🔄 Refresh Rekod",
+                "footer.slogan": "💝 Untuk Masa Depan Cerah Anda dan Keluarga",
                 "medicalCard.shp": "SHP - Smart Health Protector",
                 "medicalCard.gmv": "GMV - GREAT MediValue",
                 "medicalCard.sms": "SMS - SmartMedic Shield",
@@ -1206,38 +1212,41 @@
                 "accident.caber": "Manfaat Kemalangan Komprehensif (Berkadar)",
             },
             "th": {
+                "form.title": "⚙️ แก้ไขโปสเตอร์ประกันภัย",
+                "form.personalInfo": "📋 ข้อมูลส่วนบุคคล",
                 "form.clientName": "ชื่อลูกค้า",
                 "form.age": "อายุ",
                 "form.gender": "เพศ",
                 "form.smoking": "สูบบุหรี่",
                 "form.jobGrade": "ระดับงาน",
+                "form.premiumInfo": "💰 ข้อมูลเบี้ยประกัน",
                 "form.premium": "เบี้ยประกันรายเดือน",
-                "form.section1_title": "ความตาย / ความพิการถาวร",
+                "form.section1_title": "👤 1️⃣ ความตาย / ความพิการถาวร",
                 "form.section1_compensation": "จำนวนชดเชย",
-                "form.section2_title": "ความคุ้มครองโรคร้ายแรง",
+                "form.section2_title": "🏥 2️⃣ ความคุ้มครองโรคร้ายแรง",
                 "form.section2_disease": "การครอบคลุมโรค",
                 "form.section2_amount": "จำนวนความคุ้มครอง",
-                "form.section3_title": "รายละเอียดบัตรประกันสุขภาพ",
+                "form.section3_title": "🏥 รายละเอียดบัตรประกันสุขภาพ",
                 "form.section3_cardType": "ประเภทบัตรประกันสุขภาพ",
                 "form.section3_planLevel": "เลือกแผน",
-                "form.section4_title": "ค่าเดินทางรักษาในโรงพยาบาล",
+                "form.section4_title": "🏨 4️⃣ ค่าเดินทางรักษาในโรงพยาบาล",
                 "form.section4_private": "โรงพยาบาลเอกชน",
                 "form.section4_government": "โรงพยาบาลรัฐ",
-                "form.section5_title": "ความคุ้มครองอุบัติเหตุ",
+                "form.section5_title": "⚡ 5️⃣ ความคุ้มครองอุบัติเหตุ",
                 "form.section5_type": "ประเภทอุบัติเหตุ",
                 "form.section5_death": "ความตายจากอุบัติเหตุ",
                 "form.section5_medical": "การรักษาทางการแพทย์จากอุบัติเหตุ (ต่อครั้ง)",
                 "form.section5_sickLeave_major": "วันลาป่วย - บาดเจ็บสาหัส (ต่อสัปดาห์)",
                 "form.section5_sickLeave_minor": "วันลาป่วย - บาดเจ็บเบา (ต่อสัปดาห์)",
-                "form.section6_title": "การยกเว้นเบี้ยประกัน",
+                "form.section6_title": "⚖️ 6️⃣ การยกเว้นเบี้ยประกัน",
                 "form.section6_insured": "ผู้ประกันตนได้รับความคุ้มครองจนถึง",
                 "form.section6_payor": "ผู้จ่ายเบี้ยได้รับความคุ้มครองจนถึง",
-                "form.section7_title": "มูลค่าการลงทุน",
+                "form.section7_title": "💰 7️⃣ มูลค่าการลงทุน",
                 "form.section7_10year": "มูลค่าการลงทุน 10 ปี",
                 "form.section7_20year": "มูลค่าการลงทุน 20 ปี",
                 "form.section7_30year": "มูลค่าการลงทุน 30 ปี",
-                "button.refresh": "รีเซ็ตระเบียน",
-                "footer.slogan": "เพื่ออนาคตที่สดใสของคุณและครอบครัว",
+                "button.refresh": "🔄 รีเซ็ตระเบียน",
+                "footer.slogan": "💝 เพื่ออนาคตที่สดใสของคุณและครอบครัว",
                 "medicalCard.shp": "SHP - Smart Health Protector",
                 "medicalCard.gmv": "GMV - GREAT MediValue",
                 "medicalCard.sms": "SMS - SmartMedic Shield",
@@ -1248,11 +1257,14 @@
                 "accident.caber": "ความคุ้มครองอุบัติเหตุที่ครอบคลุม (ตามสัดส่วน)",
             },
             "zh": {
+                "form.title": "⚙️ 编辑保险海报",
+                "form.personalInfo": "📋 个人资料",
                 "form.clientName": "客户名字",
                 "form.age": "年龄",
                 "form.gender": "性别",
                 "form.smoking": "抽烟",
                 "form.jobGrade": "工作等级",
+                "form.premiumInfo": "💰 保费信息",
                 "form.premium": "月保费",
                 "form.section1_title": "👤 1️⃣ 身故/永久残疾",
                 "form.section1_compensation": "赔偿金额",
