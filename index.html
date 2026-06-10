@@ -1678,21 +1678,39 @@
             });
 
             // 更新select选项的文本
-            const selectTranslations = {
-                'gender': ['select.female', 'select.male'],
-                'smoking': ['select.no', 'select.yes'],
-                'input3': ['select.cibr', 'select.cipr', 'select.smcc'],
-                'cardType': ['select.shp', 'select.gmv', 'select.sms'],
-                'accidentType': ['select.addm', 'select.caber']
+            const selectValueTranslations = {
+                'gender': {
+                    '女': 'select.female',
+                    '男': 'select.male'
+                },
+                'smoking': {
+                    '否': 'select.no',
+                    '是': 'select.yes'
+                },
+                'input3': {
+                    'CIBR': 'select.cibr',
+                    'CIPR': 'select.cipr',
+                    'SMCC': 'select.smcc'
+                },
+                'cardType': {
+                    'SHP': 'select.shp',
+                    'GMV': 'select.gmv',
+                    'SMS': 'select.sms'
+                },
+                'accidentType': {
+                    'ADDM': 'select.addm',
+                    'CABER': 'select.caber'
+                }
             };
 
-            for (const [selectId, keys] of Object.entries(selectTranslations)) {
+            for (const [selectId, valueMap] of Object.entries(selectValueTranslations)) {
                 const select = document.getElementById(selectId);
                 if (select) {
                     const options = select.querySelectorAll('option');
-                    options.forEach((option, index) => {
-                        if (keys[index]) {
-                            option.textContent = t(keys[index]);
+                    options.forEach(option => {
+                        const value = option.value;
+                        if (valueMap[value]) {
+                            option.textContent = t(valueMap[value]);
                         }
                     });
                 }
