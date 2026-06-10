@@ -1265,6 +1265,32 @@
                 "medical.intraocularLens": "Intraocular Lens",
                 "medical.ambulanceService": "Ambulance Service",
                 "medical.accidentalDeath": "Accidental Death",
+                "select.female": "Female",
+                "select.male": "Male",
+                "select.no": "No",
+                "select.yes": "Yes",
+                "select.cibr": "CIBR",
+                "select.cipr": "CIPR",
+                "select.smcc": "SMCC",
+                "select.shp": "SHP - Smart Health Protector",
+                "select.gmv": "GMV - GREAT MediValue",
+                "select.sms": "SMS - SmartMedic Shield",
+                "select.selectPlan": "-- Select Plan --",
+                "select.addm": "ACCIDENTAL DEATH & DISMEMBERMENT BENEFIT (Death Only)",
+                "select.caber": "COMPREHENSIVE ACCIDENT BENEFIT XTRA RIDER (Proportional)",
+                "option.female": "Female",
+                "option.male": "Male",
+                "option.no": "No",
+                "option.yes": "Yes",
+                "option.cibr": "CIBR",
+                "option.cipr": "CIPR",
+                "option.smcc": "SMCC",
+                "option.shp": "SHP - Smart Health Protector",
+                "option.gmv": "GMV - GREAT MediValue",
+                "option.sms": "SMS - SmartMedic Shield",
+                "option.selectPlan": "-- Select Plan --",
+                "option.addm": "ACCIDENTAL DEATH & DISMEMBERMENT BENEFIT (Death Only)",
+                "option.caber": "COMPREHENSIVE ACCIDENT BENEFIT XTRA RIDER (Proportional)",
             },
             "bm": {
                 "form.title": "Edit Poster Insurans",
@@ -1363,6 +1389,19 @@
                 "medical.intraocularLens": "Kanta Intraokular",
                 "medical.ambulanceService": "Perkhidmatan Ambulans",
                 "medical.accidentalDeath": "Kematian Kemalangan",
+                "select.female": "Perempuan",
+                "select.male": "Lelaki",
+                "select.no": "Tidak",
+                "select.yes": "Ya",
+                "select.cibr": "CIBR",
+                "select.cipr": "CIPR",
+                "select.smcc": "SMCC",
+                "select.shp": "SHP - Smart Health Protector",
+                "select.gmv": "GMV - GREAT MediValue",
+                "select.sms": "SMS - SmartMedic Shield",
+                "select.selectPlan": "-- Pilih Pelan --",
+                "select.addm": "ACCIDENTAL DEATH & DISMEMBERMENT BENEFIT (Kematian Sahaja)",
+                "select.caber": "COMPREHENSIVE ACCIDENT BENEFIT XTRA RIDER (Berkadar)",
             },
             "th": {
                 "form.title": "แก้ไขโปสเตอร์ประกันภัย",
@@ -1461,6 +1500,19 @@
                 "medical.intraocularLens": "เลนส์แก้วตาเทียม",
                 "medical.ambulanceService": "บริการรถพยาบาล",
                 "medical.accidentalDeath": "ความตายจากอุบัติเหตุ",
+                "select.female": "หญิง",
+                "select.male": "ชาย",
+                "select.no": "ไม่",
+                "select.yes": "ใช่",
+                "select.cibr": "CIBR",
+                "select.cipr": "CIPR",
+                "select.smcc": "SMCC",
+                "select.shp": "SHP - Smart Health Protector",
+                "select.gmv": "GMV - GREAT MediValue",
+                "select.sms": "SMS - SmartMedic Shield",
+                "select.selectPlan": "-- เลือกแผน --",
+                "select.addm": "ACCIDENTAL DEATH & DISMEMBERMENT BENEFIT (ความตายเท่านั้น)",
+                "select.caber": "COMPREHENSIVE ACCIDENT BENEFIT XTRA RIDER (ตามสัดส่วน)",
             },
             "zh": {
                 "form.title": "编辑保险海报",
@@ -1559,6 +1611,19 @@
                 "medical.intraocularLens": "眼睛植入晶体",
                 "medical.ambulanceService": "救护车服务",
                 "medical.accidentalDeath": "意外死亡",
+                "select.female": "女",
+                "select.male": "男",
+                "select.no": "否",
+                "select.yes": "是",
+                "select.cibr": "CIBR",
+                "select.cipr": "CIPR",
+                "select.smcc": "SMCC",
+                "select.shp": "SHP - Smart Health Protector",
+                "select.gmv": "GMV - GREAT MediValue",
+                "select.sms": "SMS - SmartMedic Shield",
+                "select.selectPlan": "-- 选择保险计划 --",
+                "select.addm": "仅死亡",
+                "select.caber": "按比例计算",
             }
         };
 
@@ -1611,6 +1676,36 @@
                     element.textContent = text;
                 }
             });
+
+            // 更新select选项的文本
+            const selectTranslations = {
+                'gender': ['select.female', 'select.male'],
+                'smoking': ['select.no', 'select.yes'],
+                'input3': ['select.cibr', 'select.cipr', 'select.smcc'],
+                'cardType': ['select.shp', 'select.gmv', 'select.sms'],
+                'accidentType': ['select.addm', 'select.caber']
+            };
+
+            for (const [selectId, keys] of Object.entries(selectTranslations)) {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    const options = select.querySelectorAll('option');
+                    options.forEach((option, index) => {
+                        if (keys[index]) {
+                            option.textContent = t(keys[index]);
+                        }
+                    });
+                }
+            }
+
+            // 更新planLevel的默认选项文本
+            const planLevelSelect = document.getElementById('planLevel');
+            if (planLevelSelect && planLevelSelect.options[0]) {
+                const defaultOption = planLevelSelect.options[0];
+                if (defaultOption.value === '') {
+                    defaultOption.textContent = t('select.selectPlan');
+                }
+            }
 
             // 更新医药卡产品名称
             const cardType = document.getElementById('cardType')?.value || 'SHP';
