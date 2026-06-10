@@ -2053,6 +2053,8 @@
 
             // 🌍 Initialize language
             try {
+                // First apply translations immediately to ensure select options are translated
+                applyTranslations();
                 setLanguage(currentLanguage);
                 console.log('✅ Language initialized:', currentLanguage);
             } catch(e) {
